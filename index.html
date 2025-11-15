@@ -2,8 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>A Small Machine For Writing Prayers</title>
+  <title>מחולל תפילות קטנות · A Small Machine For Writing Prayers</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Old book style fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
@@ -16,39 +22,67 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(circle at top, #111320, #05060a);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Chicago", sans-serif;
-      color: #f6f6f6;
+      background:
+        radial-gradient(circle at top, #3a3230, #151011);
+      font-family: "EB Garamond", "Georgia", serif;
+      color: #22140f;
     }
 
-    #wrapper {
+    #book {
       width: 95%;
-      max-width: 900px;
-      border: 1px solid #7fffd4;
-      padding: 18px 20px 14px 20px;
-      background: rgba(4, 6, 16, 0.95);
-      box-shadow: 0 0 24px rgba(0, 255, 180, 0.35);
+      max-width: 980px;
+      padding: 24px 10px;
     }
 
-    #title {
+    #cover {
+      border-radius: 14px;
+      padding: 18px;
+      background: #241712;
+      box-shadow:
+        0 0 0 1px #100907,
+        0 12px 32px rgba(0, 0, 0, 0.65);
+    }
+
+    #page {
+      border-radius: 10px;
+      padding: 18px 18px 14px 18px;
+      background:
+        radial-gradient(circle at top, #f9f2e6, #f1e4cf);
+      box-shadow:
+        inset 0 0 0 1px rgba(120, 84, 53, 0.4);
+    }
+
+    #head {
       text-align: center;
-      font-size: 20px;
-      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    #titleHebrew {
+      font-family: "Frank Ruhl Libre", "Times New Roman", serif;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+    }
+
+    #titleEnglish {
+      font-size: 14px;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-top: 3px;
     }
 
-    #subtitle {
+    #divider {
+      margin: 6px auto 10px auto;
+      width: 140px;
       text-align: center;
-      font-size: 12px;
-      opacity: 0.75;
-      margin-bottom: 16px;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: #7c5b3a;
     }
 
     #layout {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     @media (min-width: 800px) {
@@ -58,23 +92,23 @@
     }
 
     #leftCol {
-      flex: 1;
+      flex: 0.95;
       min-width: 260px;
-      border-right: 1px solid rgba(127, 255, 212, 0.25);
+      border-right: 1px solid rgba(135, 96, 60, 0.3);
       padding-right: 12px;
     }
 
     @media (max-width: 799px) {
       #leftCol {
         border-right: none;
-        border-bottom: 1px solid rgba(127, 255, 212, 0.25);
+        border-bottom: 1px solid rgba(135, 96, 60, 0.3);
         padding-right: 0;
         padding-bottom: 10px;
       }
     }
 
     #rightCol {
-      flex: 1.2;
+      flex: 1.1;
       min-width: 260px;
       padding-left: 12px;
     }
@@ -86,10 +120,16 @@
     }
 
     #promptLabel {
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      opacity: 0.8;
+      letter-spacing: 0.16em;
+      color: #6a4b30;
+      margin-bottom: 4px;
+    }
+
+    #promptHint {
+      font-size: 11px;
+      color: #7f5a3b;
       margin-bottom: 6px;
     }
 
@@ -100,23 +140,23 @@
     }
 
     button {
-      font-family: inherit;
+      font-family: "EB Garamond", "Georgia", serif;
       font-size: 12px;
-      padding: 5px 10px;
+      padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid #7fffd4;
-      background: rgba(7, 10, 20, 0.9);
-      color: #f6f6f6;
+      border: 1px solid #a37a51;
+      background: #f6ead7;
+      color: #3b2514;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+      transition: background 0.12s ease, color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease;
       white-space: nowrap;
     }
 
     button:hover {
-      background: #7fffd4;
-      color: #05060a;
-      transform: translateY(-1px);
-      box-shadow: 0 0 10px rgba(127, 255, 212, 0.6);
+      background: #d7b287;
+      color: #20100a;
+      box-shadow: 0 0 0 1px rgba(119, 79, 44, 0.6);
+      transform: translateY(-0.5px);
     }
 
     button:active {
@@ -127,33 +167,40 @@
     #randomBtn {
       margin-top: 8px;
       font-size: 11px;
-      padding-inline: 12px;
-      border-style: dashed;
-      opacity: 0.9;
+      padding-inline: 14px;
+      border-style: dotted;
+      background: #f5e7d1;
     }
 
     #prayerHeader {
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      opacity: 0.85;
+      letter-spacing: 0.16em;
+      color: #6a4b30;
       margin-bottom: 4px;
     }
 
     #prayerCategory {
       font-size: 11px;
-      opacity: 0.7;
-      margin-bottom: 6px;
+      color: #7f5a3b;
+      margin-bottom: 4px;
+    }
+
+    #prayerBoxOuter {
+      border-radius: 8px;
+      padding: 6px;
+      background: #f8ecdd;
+      box-shadow:
+        inset 0 0 0 1px rgba(169, 120, 73, 0.4),
+        0 1px 2px rgba(111, 79, 48, 0.35);
     }
 
     #prayerBox {
-      min-height: 180px;
-      border-radius: 10px;
-      border: 1px solid rgba(127, 255, 212, 0.5);
-      padding: 10px 12px;
-      background: radial-gradient(circle at top left, rgba(127, 255, 212, 0.08), rgba(3, 5, 12, 0.95));
-      font-size: 13px;
-      line-height: 1.5;
+      min-height: 190px;
+      border-radius: 4px;
+      padding: 8px 10px 6px 10px;
+      background:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 245, 230, 0.1));
       position: relative;
       overflow: hidden;
     }
@@ -161,58 +208,90 @@
     #prayerText {
       opacity: 0;
       transform: translateY(6px);
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      transition: opacity 0.25s ease, transform 0.25s ease;
       white-space: pre-wrap;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    #prayerBox::before {
+      content: "✶";
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: #b28b5c;
+    }
+
+    #prayerBox::after {
+      content: "✶";
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: #b28b5c;
     }
 
     #hint {
       margin-top: 6px;
       font-size: 11px;
-      opacity: 0.65;
+      color: #7f5a3b;
     }
 
     #footer {
       margin-top: 10px;
       font-size: 10px;
-      opacity: 0.55;
+      color: #a47c54;
       text-align: center;
     }
   </style>
 </head>
 
 <body>
-  <div id="wrapper">
-    <div id="title">A SMALL MACHINE FOR WRITING PRAYERS</div>
-    <div id="subtitle">click a situation, receive something like a prayer</div>
-
-    <div id="layout">
-      <div id="leftCol">
-        <div id="promptLabel">choose a situation</div>
-        <div id="buttonGrid">
-          <button data-category="digital">for when the internet eats your brain</button>
-          <button data-category="addiction">for craving and recovery</button>
-          <button data-category="burnout">for burnout and school stuff</button>
-          <button data-category="relationships">for messy relationships</button>
-          <button data-category="body">for body and anxiety</button>
-          <button data-category="city">for this cursed beautiful city</button>
+  <div id="book">
+    <div id="cover">
+      <div id="page">
+        <div id="head">
+          <div id="titleHebrew">מחולל תפילות קטנות</div>
+          <div id="titleEnglish">A SMALL MACHINE FOR WRITING PRAYERS</div>
+          <div id="divider">✷ ✷ ✷</div>
         </div>
-        <button id="randomBtn">i do not know what i need, just give me something</button>
+
+        <div id="layout">
+          <div id="leftCol">
+            <div id="promptLabel">choose a situation</div>
+            <div id="promptHint">these are not halachic, they are just little texts trying to be gentle.</div>
+            <div id="buttonGrid">
+              <button data-category="digital">when the internet eats your brain</button>
+              <button data-category="addiction">craving and recovery</button>
+              <button data-category="burnout">burnout and school stuff</button>
+              <button data-category="relationships">messy relationships</button>
+              <button data-category="body">body and anxiety</button>
+              <button data-category="city">this cursed beautiful city</button>
+            </div>
+            <button id="randomBtn">i do not know what i need. choose for me.</button>
+          </div>
+
+          <div id="rightCol">
+            <div id="prayerHeader">tefillah generated</div>
+            <div id="prayerCategory">none yet. choose a situation on the left.</div>
+            <div id="prayerBoxOuter">
+              <div id="prayerBox">
+                <div id="prayerText"></div>
+              </div>
+            </div>
+            <div id="hint">
+              you can read these quietly like notes in the margin of a siddur, or just treat them as soft error messages from your own nervous system.
+            </div>
+          </div>
+        </div>
+
+        <div id="footer">
+          this is a studio tool, not a sefer. if you have real questions, ask a rav, a friend, a therapist, or someone who loves you.
+        </div>
       </div>
-
-      <div id="rightCol">
-        <div id="prayerHeader">generated prayer</div>
-        <div id="prayerCategory">none yet. choose a situation on the left.</div>
-        <div id="prayerBox">
-          <div id="prayerText"></div>
-        </div>
-        <div id="hint">
-          hint: you can read these out loud or just treat them like error messages from a very gentle server.
-        </div>
-      </div>
-    </div>
-
-    <div id="footer">
-      this is not a replacement for any real ritual or practice. it is just a little script trying to care.
     </div>
   </div>
 
@@ -230,7 +309,7 @@
       ],
       burnout: [
         "for the assignment that feels like a final verdict:\n\nlet me remember that grades are not commandments.\nbless the half finished project,\nthe late email,\nthe brain that is trying.\n\nhelp me choose being alive\nover being impressive.",
-        "dear calendar full of overlapping panic,\n\nplease loosen your grip.\nlet one thing get cancelled with no drama.\nlet one deadline move like a cloud.\n\nteach me that rest is not stolen,\nit is maintenance.\nservers do not run 24/7 without crashing.\nneither do i.",
+        "dear calendar full of overlapping panic,\n\nplease loosen your grip.\nlet one thing get cancelled with no drama.\nlet one deadline move like a cloud.\n\nteach me that rest is not stolen,\nit is maintenance.\nservers do not run twenty four seven without crashing.\nneither do i.",
         "for the night when i call it procrastination\nbut it is really fear:\n\nsend a tiny beam of courage\ninto the tab that scares me most.\n\nlet me write one ugly sentence,\nopen one cursed document,\nthen let me stop before i disappear into it."
       ],
       relationships: [
@@ -283,7 +362,6 @@
       }, 80);
     }
 
-    // category buttons
     document.querySelectorAll("button[data-category]").forEach(btn => {
       btn.addEventListener("click", () => {
         const key = btn.getAttribute("data-category");
@@ -291,7 +369,6 @@
       });
     });
 
-    // random button
     document.getElementById("randomBtn").addEventListener("click", () => {
       const keys = Object.keys(prayers);
       const randomKey = pickRandom(keys);
