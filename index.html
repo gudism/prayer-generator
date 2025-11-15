@@ -5,7 +5,7 @@
   <title>מחולל תפילות קטנות · A Small Machine For Writing Prayers</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Old book style fonts -->
+  <!-- Old-book style fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
@@ -22,8 +22,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background:
-        radial-gradient(circle at top, #3a3230, #151011);
+      background: radial-gradient(circle at top, #3a3230, #151011);
       font-family: "EB Garamond", "Georgia", serif;
       color: #22140f;
     }
@@ -46,13 +45,23 @@
     #page {
       border-radius: 10px;
       padding: 18px 18px 14px 18px;
-      background:
-        radial-gradient(circle at top, #f9f2e6, #f1e4cf);
-      box-shadow:
-        inset 0 0 0 1px rgba(120, 84, 53, 0.4);
+      background: radial-gradient(circle at top, #f9f2e6, #f1e4cf);
+      box-shadow: inset 0 0 0 1px rgba(120, 84, 53, 0.4);
     }
 
-    #head {
+    /* ASCII illuminated header */
+
+    #asciiHeader {
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      line-height: 1.1;
+      color: #3a1e10;
+      text-align: center;
+      white-space: pre;
+      margin: 0 0 4px 0;
+    }
+
+    #headText {
       text-align: center;
       margin-bottom: 10px;
     }
@@ -71,8 +80,8 @@
     }
 
     #divider {
-      margin: 6px auto 10px auto;
-      width: 140px;
+      margin: 4px auto 8px auto;
+      width: 160px;
       text-align: center;
       font-size: 11px;
       letter-spacing: 0.3em;
@@ -92,7 +101,7 @@
     }
 
     #leftCol {
-      flex: 0.95;
+      flex: 0.9;
       min-width: 260px;
       border-right: 1px solid rgba(135, 96, 60, 0.3);
       padding-right: 12px;
@@ -186,52 +195,46 @@
       margin-bottom: 4px;
     }
 
-    #prayerBoxOuter {
-      border-radius: 8px;
-      padding: 6px;
+    /* ASCII illuminated frame around the prayer */
+
+    #prayerFrame {
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      line-height: 1.1;
+      color: #3a1e10;
       background: #f8ecdd;
+      border-radius: 8px;
+      padding: 6px 6px 4px 6px;
       box-shadow:
-        inset 0 0 0 1px rgba(169, 120, 73, 0.4),
+        inset 0 0 0 1px rgba(169, 120, 73, 0.5),
         0 1px 2px rgba(111, 79, 48, 0.35);
     }
 
+    #prayerAsciiTop,
+    #prayerAsciiBottom {
+      white-space: pre;
+      margin: 0;
+    }
+
     #prayerBox {
-      min-height: 190px;
+      margin: 2px 0;
+      padding: 4px 6px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,245,230,0.2));
       border-radius: 4px;
-      padding: 8px 10px 6px 10px;
-      background:
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 245, 230, 0.1));
+      min-height: 150px;
       position: relative;
       overflow: hidden;
     }
 
     #prayerText {
+      white-space: pre-wrap;
+      font-family: "EB Garamond", "Georgia", serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #22140f;
       opacity: 0;
       transform: translateY(6px);
       transition: opacity 0.25s ease, transform 0.25s ease;
-      white-space: pre-wrap;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    #prayerBox::before {
-      content: "✶";
-      position: absolute;
-      top: 4px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px;
-      color: #b28b5c;
-    }
-
-    #prayerBox::after {
-      content: "✶";
-      position: absolute;
-      bottom: 4px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px;
-      color: #b28b5c;
     }
 
     #hint {
@@ -253,7 +256,25 @@
   <div id="book">
     <div id="cover">
       <div id="page">
-        <div id="head">
+        <!-- ASCII arch / columns header -->
+<pre id="asciiHeader">
+                     /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+                    /                              \
+               ____/________________________________\____
+              /   /|                                |\   \
+             /   / |                                | \   \
+            /   /  |      .----------------.        |  \   \
+           /   /   |      |   ✶ ✶ ✶ ✶ ✶   |        |   \   \
+          /   /    |      |                |        |    \   \
+         /   /     |      |                |        |     \   \
+        /___/______|______|________________|________|______\___\
+        |   |      |      |                |        |      |   |
+        |   |      |      |                |        |      |   |
+        |   |      |      |                |        |      |   |
+        |___|______|______|________________|________|______|___|
+</pre>
+
+        <div id="headText">
           <div id="titleHebrew">מחולל תפילות קטנות</div>
           <div id="titleEnglish">A SMALL MACHINE FOR WRITING PRAYERS</div>
           <div id="divider">✷ ✷ ✷</div>
@@ -262,7 +283,7 @@
         <div id="layout">
           <div id="leftCol">
             <div id="promptLabel">choose a situation</div>
-            <div id="promptHint">these are not halachic, they are just little texts trying to be gentle.</div>
+            <div id="promptHint">these are not halachic, just little illuminations for the nervous system.</div>
             <div id="buttonGrid">
               <button data-category="digital">when the internet eats your brain</button>
               <button data-category="addiction">craving and recovery</button>
@@ -271,25 +292,40 @@
               <button data-category="body">body and anxiety</button>
               <button data-category="city">this cursed beautiful city</button>
             </div>
-            <button id="randomBtn">i do not know what i need. choose for me.</button>
+            <button id="randomBtn">i am not sure what i need. choose for me.</button>
           </div>
 
           <div id="rightCol">
             <div id="prayerHeader">tefillah generated</div>
             <div id="prayerCategory">none yet. choose a situation on the left.</div>
-            <div id="prayerBoxOuter">
+
+            <div id="prayerFrame">
+<pre id="prayerAsciiTop">
+   .-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-.
+  /  *  *  *      פְּרָשִׁיַּת תְּפִלָּה זְעֵירָה       *  *  *  \
+ /______________________________________________________\
+ |  ❧                                                  ❧ |
+ |                                                      |</pre>
+
               <div id="prayerBox">
                 <div id="prayerText"></div>
               </div>
+
+<pre id="prayerAsciiBottom"> |                                                      |
+ |  ❧                                                  ❧ |
+ \______________________________________________________/
+  \   *   *   *     זֹאת אֵינָהּ סֵפֶר הֲלָכָה      *   *   *   /
+   `-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'</pre>
             </div>
+
             <div id="hint">
-              you can read these quietly like notes in the margin of a siddur, or just treat them as soft error messages from your own nervous system.
+              you can read these like marginal notes in a siddur or as soft error messages from your own body.
             </div>
           </div>
         </div>
 
         <div id="footer">
-          this is a studio tool, not a sefer. if you have real questions, ask a rav, a friend, a therapist, or someone who loves you.
+          this is a studio piece, not a psak. for real questions, ask a rav, a friend, a therapist, or someone who actually knows you. 
         </div>
       </div>
     </div>
