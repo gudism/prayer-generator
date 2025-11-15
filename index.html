@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>A Small Machine For Writing Prayers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #111320, #05060a);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Chicago", sans-serif;
+      color: #f6f6f6;
+    }
+
+    #wrapper {
+      width: 95%;
+      max-width: 900px;
+      border: 1px solid #7fffd4;
+      padding: 18px 20px 14px 20px;
+      background: rgba(4, 6, 16, 0.95);
+      box-shadow: 0 0 24px rgba(0, 255, 180, 0.35);
+    }
+
+    #title {
+      text-align: center;
+      font-size: 20px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    #subtitle {
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.75;
+      margin-bottom: 16px;
+    }
+
+    #layout {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (min-width: 800px) {
+      #layout {
+        flex-direction: row;
+      }
+    }
+
+    #leftCol {
+      flex: 1;
+      min-width: 260px;
+      border-right: 1px solid rgba(127, 255, 212, 0.25);
+      padding-right: 12px;
+    }
+
+    @media (max-width: 799px) {
+      #leftCol {
+        border-right: none;
+        border-bottom: 1px solid rgba(127, 255, 212, 0.25);
+        padding-right: 0;
+        padding-bottom: 10px;
+      }
+    }
+
+    #rightCol {
+      flex: 1.2;
+      min-width: 260px;
+      padding-left: 12px;
+    }
+
+    @media (max-width: 799px) {
+      #rightCol {
+        padding-left: 0;
+      }
+    }
+
+    #promptLabel {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.8;
+      margin-bottom: 6px;
+    }
+
+    #buttonGrid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #7fffd4;
+      background: rgba(7, 10, 20, 0.9);
+      color: #f6f6f6;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      background: #7fffd4;
+      color: #05060a;
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px rgba(127, 255, 212, 0.6);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    #randomBtn {
+      margin-top: 8px;
+      font-size: 11px;
+      padding-inline: 12px;
+      border-style: dashed;
+      opacity: 0.9;
+    }
+
+    #prayerHeader {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.85;
+      margin-bottom: 4px;
+    }
+
+    #prayerCategory {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
+
+    #prayerBox {
+      min-height: 180px;
+      border-radius: 10px;
+      border: 1px solid rgba(127, 255, 212, 0.5);
+      padding: 10px 12px;
+      background: radial-gradient(circle at top left, rgba(127, 255, 212, 0.08), rgba(3, 5, 12, 0.95));
+      font-size: 13px;
+      line-height: 1.5;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #prayerText {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      white-space: pre-wrap;
+    }
+
+    #hint {
+      margin-top: 6px;
+      font-size: 11px;
+      opacity: 0.65;
+    }
+
+    #footer {
+      margin-top: 10px;
+      font-size: 10px;
+      opacity: 0.55;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="title">A SMALL MACHINE FOR WRITING PRAYERS</div>
+    <div id="subtitle">click a situation, receive something like a prayer</div>
+
+    <div id="layout">
+      <div id="leftCol">
+        <div id="promptLabel">choose a situation</div>
+        <div id="buttonGrid">
+          <button data-category="digital">for when the internet eats your brain</button>
+          <button data-category="addiction">for craving and recovery</button>
+          <button data-category="burnout">for burnout and school stuff</button>
+          <button data-category="relationships">for messy relationships</button>
+          <button data-category="body">for body and anxiety</button>
+          <button data-category="city">for this cursed beautiful city</button>
+        </div>
+        <button id="randomBtn">i do not know what i need, just give me something</button>
+      </div>
+
+      <div id="rightCol">
+        <div id="prayerHeader">generated prayer</div>
+        <div id="prayerCategory">none yet. choose a situation on the left.</div>
+        <div id="prayerBox">
+          <div id="prayerText"></div>
+        </div>
+        <div id="hint">
+          hint: you can read these out loud or just treat them like error messages from a very gentle server.
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      this is not a replacement for any real ritual or practice. it is just a little script trying to care.
+    </div>
+  </div>
+
+  <script>
+    const prayers = {
+      digital: [
+        "dear whoever is in charge of bandwidth\nand attention span,\n\nplease let the algorithm forget my face for one night.\nlog me out of every tab that only wants my panic.\nclear the cache of comparisons i did not consent to.\n\nlet my hands remember how to close the laptop\nand touch something that is not a screen.\nlet silence load faster than the next notification.",
+        "may i be released from the urge to scroll\nthrough people i do not even like.\n\nbless the broken wifi,\nthe dead zone on the train,\nthe battery that dies right when i need it to.\n\nteach me that i am still real\nwhen i am not being witnessed\nby a little green dot.",
+        "for the night when the blue light\nfeels like it lives under my skin:\n\nlet there be an unplugged corner\ninside my ribcage,\nwhere nothing refreshes,\nno one types,\nand i am not an icon\nbut a person who can sleep."
+      ],
+      addiction: [
+        "for the craving that shows up uninvited:\n\nplease put a tiny delay between the thought\nand the reach.\n\nwrap that split second in something stronger than habit.\nlet me remember the mornings after,\nthe teeth, the veins, the shaking hands.\n\nplace someone kind in my path,\neven if it is just the barista\nor my own reflection refusing to lie.",
+        "dear body that survived all my experiments,\n\nthank you for not quitting when i tried to.\nthank you for filtering and stitching and repairing\nwhile i called it fun.\n\nmay tonight be boring in the best way.\nmay the only thing that gets wasted\nbe the expectations of who i was supposed to be.",
+        "for the days when sobriety feels like an empty room:\n\nsend me one small, ridiculous joy\nthat does not require damage.\na dog on the bus,\na song i forgot i loved,\na text that is not a trap.\n\nremind me that quiet is not punishment.\nit is the sound of the system rebooting."
+      ],
+      burnout: [
+        "for the assignment that feels like a final verdict:\n\nlet me remember that grades are not commandments.\nbless the half finished project,\nthe late email,\nthe brain that is trying.\n\nhelp me choose being alive\nover being impressive.",
+        "dear calendar full of overlapping panic,\n\nplease loosen your grip.\nlet one thing get cancelled with no drama.\nlet one deadline move like a cloud.\n\nteach me that rest is not stolen,\nit is maintenance.\nservers do not run 24/7 without crashing.\nneither do i.",
+        "for the night when i call it procrastination\nbut it is really fear:\n\nsend a tiny beam of courage\ninto the tab that scares me most.\n\nlet me write one ugly sentence,\nopen one cursed document,\nthen let me stop before i disappear into it."
+      ],
+      relationships: [
+        "for the conversation i am rehearsing in my head:\n\nplease translate my defensiveness\ninto something softer.\nkeep my tongue from drawing blood.\n\nlet me say what is true\nwithout trying to win.\nlet me hear what hurts them\nwithout treating it as a verdict on my worth.",
+        "dear archive of exes and almosts,\n\nlet tonight be light on reruns.\nkeep my fingers from reopening\nwounds disguised as chats.\n\nbless the version of me that believed\nthis was the only way to be loved.\n\nlet a kinder script boot up soon.",
+        "for the friendships i keep ghosting:\n\nmay the people who are meant to stay\nread my silence as exhaustion,\nnot hatred.\n\nsend me one gentle nudge\nto answer a text,\nshare a meme,\nshow i am still here\ninside the static."
+      ],
+      body: [
+        "for the body that feels like a glitch today:\n\nbless every cell that kept going\nwithout my permission.\n\nmay i speak to myself\nlike i would to a stranger in pain,\nnot like an enemy.\n\nlet me remember that this skin,\nthese teeth, this gut,\nare not obstacles.\nthey are the neighborhood i live in.",
+        "dear nervous system,\n\ni see you pulling the fire alarm\nwhen there is only a loud email.\nthank you for wanting me alive.\n\nplease accept this cup of water\nand this slow breath\nas proof that we are not back there.\n\nlet the past unhook its cables\nfrom my present.",
+        "for the mirror that keeps trying to pick a fight:\n\nblur its edges for a while.\nlet me see myself the way a friend would:\nfunny, tired, very much alive.\n\nmay every scar read as\n\"system patched and still running\"\nnot \"critical failure\"."
+      ],
+      city: [
+        "for this cursed beautiful city:\n\nbless the bus drivers,\nthe corner store clerks,\nthe people sweeping the sidewalk at sunrise.\n\nhold the tents and the condos\nthe same way a tired parent holds\nkids who will not stop fighting.\n\nlet there be one small pocket of safety\ntoday for everyone who needs it.",
+        "dear cracked sidewalk and jacaranda mess,\n\nthank you for reminding me\nthat bloom and decay share a timeline.\n\nwhen the sirens feel louder than the birds,\nturn up the volume on anything soft:\na baby laughing on the train,\nsomeone practicing trumpet badly upstairs.",
+        "for the nights when the city feels like a relapse trigger:\n\nreroute my feet away from the old haunts.\nreplace the familiar neon with a different kind of glow.\n\nlet me find a diner, a bench, a synagogue doorway,\nanywhere sacred enough that my worst impulses\nfeel a little embarrassed to show up."
+      ]
+    };
+
+    const categoryNames = {
+      digital: "situation: when the internet eats your brain",
+      addiction: "situation: craving and recovery",
+      burnout: "situation: burnout and school stuff",
+      relationships: "situation: messy relationships",
+      body: "situation: body and anxiety",
+      city: "situation: this cursed beautiful city"
+    };
+
+    const prayerTextEl = document.getElementById("prayerText");
+    const prayerCategoryEl = document.getElementById("prayerCategory");
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function showPrayer(categoryKey) {
+      const options = prayers[categoryKey];
+      if (!options) return;
+      const text = pickRandom(options);
+
+      // reset animation
+      prayerTextEl.style.opacity = 0;
+      prayerTextEl.style.transform = "translateY(6px)";
+
+      setTimeout(() => {
+        prayerTextEl.textContent = text;
+        prayerCategoryEl.textContent = categoryNames[categoryKey] || "";
+        prayerTextEl.style.opacity = 1;
+        prayerTextEl.style.transform = "translateY(0)";
+      }, 80);
+    }
+
+    // category buttons
+    document.querySelectorAll("button[data-category]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const key = btn.getAttribute("data-category");
+        showPrayer(key);
+      });
+    });
+
+    // random button
+    document.getElementById("randomBtn").addEventListener("click", () => {
+      const keys = Object.keys(prayers);
+      const randomKey = pickRandom(keys);
+      showPrayer(randomKey);
+    });
+  </script>
+</body>
+</html>
